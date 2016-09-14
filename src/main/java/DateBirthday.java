@@ -9,30 +9,40 @@ import org.joda.time.LocalDate;
 
 public class DateBirthday {
 
-	public Days daysToNewYear(LocalDate fromDate) {
+	public int sumaNumeros(int i,int j) {
+		int ret = i+ j;
+		return ret;
+	}
+
+	public String daysToNewBirthday(LocalDate fromDate) {
 		String testdate="";
 		DateTime current = new DateTime();
+		String days="";
 		int currentMonth = current.getMonthOfYear();
 		int birthdayMonth = fromDate.getMonthOfYear();
-		//System.out.println(currentMonth+"  --  "+birthdayMonth);
-	
-	   if(birthdayMonth < currentMonth){
+		int currentday = current.getDayOfMonth();
+		int birthdayday= fromDate.getDayOfMonth();
+
+		if(birthdayMonth < currentMonth){
 			int nextYear=current.getYear()+1;
 			testdate = nextYear+"-"+fromDate.getMonthOfYear()+"-"+fromDate.getDayOfMonth();
+		}if((currentday == birthdayday)&&(birthdayMonth == currentMonth)){
+			days="0";
+			return days;
 		}else {
 			testdate = current.getYear()+"-"+fromDate.getMonthOfYear()+"-"+fromDate.getDayOfMonth();
 		}	
 		LocalDate birthday = new LocalDate(testdate);
 		LocalDate dat = new LocalDate(current);
-		return Days.daysBetween(birthday, dat);
-
+		days=""+(Days.daysBetween(birthday, dat));
+		days=StringUtils.substring(days, 2, days.length()-1);
+		return days;
 	}
-	
+
 	public void information() throws IOException{
 		DateBirthday db = new DateBirthday();
 		String birthday="";
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-		//yyyy-mm-ddTHH:MM:SS.SSS
 		System.out.println("Please, Enter your birthday (YYYY-MM-DD)");
 		birthday= br.readLine();
 		while(StringUtils.isEmpty(birthday)){
@@ -42,16 +52,14 @@ public class DateBirthday {
 			birthday= br.readLine();
 		}
 		LocalDate myDate = new LocalDate(birthday);
-		Days total= db.daysToNewYear(myDate);
-	
-		String days=""+total;
-		StringUtils.isNumeric(days);
-		StringUtils.splitByCharacterType(days);
-	
-//		StringUtils.substring(days, 2, days.length()-1);
-		System.out.println("Missing "+ StringUtils.substring(days, 2, days.length()-1) +" days for your birthday");
-		
-//		System.out.println("dias "+StringUtils.substring(days, 2, days.length()-1));
+		String days=db.daysToNewBirthday(myDate);
+		if(days.equals("0")){
+			System.out.println("Missing "+ days +" days for your birthday");
+			System.out.println("Congratulations, Happy Birthday!!!");
+
+		}else{
+			System.out.println("Missing "+ days +" days for your birthday");
+		}
 	}
 
 
